@@ -24,6 +24,6 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### sit web
-http://10.77.8.165:8080/
+
 
 
