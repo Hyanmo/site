@@ -3,14 +3,41 @@
   <div id="app">
     <header class="header">
       <h1>个人主页</h1>
-      <p>欢迎来到我的个人主页！</p>
+      <p>你好，我是狗老师</p>
     </header>
 
     <section class="intro">
-      <img class="profile-pic" src="@/assets/1.jpg" alt="Profile Picture" />
-      <div class="about">
-        <h2>关于我</h2>
-        <p>你好，我是狗老师</p>
+      <div class="profile-left">
+        <!-- 左图部分，带超链接 -->
+        <a href="https://baidu.com" target="_blank">
+          <!-- 使用 HoverZoom 组件 -->
+          <HoverZoom 
+            :src="require('@/assets/2.jpg')" 
+            alt="Profile Picture" 
+          />
+        </a>
+      </div>
+
+      <div class="profile-center">
+        <!-- 中图部分，带超链接 -->
+        <a href="https://baidu.com" target="_blank">
+          <!-- 使用 HoverZoom 组件 -->
+          <HoverZoom 
+            :src="require('@/assets/3.jpg')" 
+            alt="Profile Picture" 
+          />
+        </a>
+      </div>
+
+      <div class="profile-right">
+        <!-- 右图部分，带超链接 -->
+        <a href="https://baidu.com" target="_blank">
+          <!-- 使用 HoverZoom 组件 -->
+          <HoverZoom 
+            :src="require('@/assets/4.jpg')" 
+            alt="Profile Picture" 
+          />
+        </a>
       </div>
     </section>
 
@@ -37,12 +64,14 @@
 <script>
 import MyPet from './components/MyPet.vue'
 import WordCloud from './components/WordCloud.vue';
+import HoverZoom from './components/HoverZoom.vue';
 
 export default {
   name: 'App',
   components: {
    MyPet,
-   WordCloud
+   WordCloud,
+   HoverZoom
   }
 }
 </script>
@@ -72,15 +101,16 @@ body {
 }
 
 .intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex;                      /* 使用 Flexbox 布局 */
+  justify-content: space-between;     /* 元素之间的间距自动分配 */
+  align-items: center;                /* 垂直方向居中 */
   padding: 20px;
   background-color: #fff;
   margin-top: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .profile-pic {
   width: 150px;
@@ -124,4 +154,33 @@ body {
   padding: 10px;
 }
 
+a {
+  display: block;
+  text-decoration: none;
+}
+
+.profile-left, .profile-center, .profile-right {
+  display: flex;
+  justify-content: center;            /* 水平居中 */
+  align-items: center;                /* 垂直居中 */
+}
+
+.profile-left a, .profile-center a, .profile-right a {
+  display: block;                    /* 使 <a> 标签充满父容器 */
+  text-decoration: none;              /* 移除链接下划线 */
+}
+
+.profile-left {
+  justify-content: flex-start;       /* 左对齐 */
+  margin-left: 30px;
+}
+
+.profile-center {
+  justify-content: center;           /* 居中对齐 */
+}
+
+.profile-right {
+  justify-content: flex-end;         /* 右对齐 */
+  margin-right: 30px;
+}
 </style>
