@@ -1,6 +1,6 @@
 <template>
-  <MyPet />
   <div id="app">
+    <MyPet/>
     <header class="header">
       <h1>个人主页</h1>
       <p>你好，我是狗老师</p>
@@ -42,8 +42,20 @@
     </section>
 
     <section class="skills">
-      <p>skills</p>
-      <WordCloud/>
+      <p>Skills</p>
+      <!-- 词云部分保持不变 -->
+      <WordCloud />
+    </section>
+
+    <section class="about-me">
+      <div class="card">
+        <h3>教育背景</h3>
+        <p>毕业于某大学，主修计算机科学。</p>
+      </div>
+      <div class="card">
+        <h3>兴趣爱好</h3>
+        <p>喜欢看电影、跑步和编程。</p>
+      </div>
     </section>
 
     <section class="contact">
@@ -53,6 +65,17 @@
         <li>电话: 123-456-7890</li>
         <li>GitHub: <a href="https://github.com/yourusername" target="_blank">yourusername</a></li>
       </ul>
+    </section>
+
+    <section class="social-media">
+      <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </section>
+
+    <section class="cta">
+      <button @click="showMore">了解更多</button>
+      <p v-if="isMoreInfoVisible">这里可以是更多的关于我或者其他的内容。</p>
     </section>
 
     <footer class="footer">
@@ -69,9 +92,19 @@ import HoverZoom from './components/HoverZoom.vue';
 export default {
   name: 'App',
   components: {
-   MyPet,
-   WordCloud,
-   HoverZoom
+    MyPet,
+    WordCloud,  
+    HoverZoom
+  },
+  data() {
+    return {
+      isMoreInfoVisible: false
+    }
+  },
+  methods: {
+    showMore() {
+      this.isMoreInfoVisible = !this.isMoreInfoVisible;
+    }
   }
 }
 </script>
@@ -85,7 +118,7 @@ export default {
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background: linear-gradient(45deg, #ff6b6b, #f4f4f4);  /* 渐变背景 */
   color: #333;
 }
 
@@ -98,6 +131,14 @@ body {
   background-color: #4CAF50;
   color: white;
   padding: 20px;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .intro {
@@ -111,18 +152,11 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-.profile-pic {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 20px;
-}
-
-.about {
-  max-width: 600px;
-  margin: 0 auto;
+.profile-left a:hover img,
+.profile-center a:hover img,
+.profile-right a:hover img {
+  transform: scale(1.1);  /* 图片放大 */
+  transition: transform 0.3s ease; /* 添加平滑过渡 */
 }
 
 .skills {
@@ -135,6 +169,33 @@ body {
   border: 6px solid #4CAF50;
 }
 
+.about-me {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #4CAF50;
+}
+
+.card p {
+  font-size: 16px;
+  color: #333;
+}
+
 .contact {
   padding: 20px;
   background-color: #fff;
@@ -145,6 +206,41 @@ body {
 
 .contact a {
   color: #4CAF50;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.social-media i {
+  font-size: 30px;
+  color: #4CAF50;
+  transition: color 0.3s;
+}
+
+.social-media i:hover {
+  color: #333;
+}
+
+.cta {
+  margin-top: 20px;
+}
+
+.cta button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.cta button:hover {
+  background-color: #45a049;
 }
 
 .footer {
@@ -182,5 +278,14 @@ a {
 .profile-right {
   justify-content: flex-end;         /* 右对齐 */
   margin-right: 30px;
+}
+
+@media (max-width: 768px) {
+  .intro {
+    flex-direction: column;   /* 在手机端将三列布局改为竖排 */
+  }
+  .profile-left, .profile-center, .profile-right {
+    margin-bottom: 20px;
+  }
 }
 </style>
