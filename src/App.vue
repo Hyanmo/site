@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MyPet/>
+    <MyPet />
     <header class="header">
       <h1>个人主页</h1>
       <p>你好，我是狗老师</p>
@@ -8,53 +8,54 @@
 
     <section class="intro">
       <div class="profile-left">
-        <!-- 左图部分，带超链接 -->
-        <a href="https://baidu.com" target="_blank">
-          <!-- 使用 HoverZoom 组件 -->
+        <a href="https://baidu.com" target="_blank" class="hover-container">
           <HoverZoom 
             :src="require('@/assets/2.jpg')" 
+            :backSrc="require('@/assets/1.jpg')"
             alt="Profile Picture" 
+            backAlt="back Picture"
           />
         </a>
       </div>
 
       <div class="profile-center">
-        <!-- 中图部分，带超链接 -->
-        <a href="https://baidu.com" target="_blank">
-          <!-- 使用 HoverZoom 组件 -->
+        <a href="https://baidu.com" target="_blank" class="hover-container">
           <HoverZoom 
             :src="require('@/assets/3.jpg')" 
-            alt="Profile Picture" 
+            :backSrc="require('@/assets/1.jpg')"
+            alt="Profile Picture"
+            backAlt="back Picture" 
           />
         </a>
       </div>
 
       <div class="profile-right">
-        <!-- 右图部分，带超链接 -->
-        <a href="https://baidu.com" target="_blank">
-          <!-- 使用 HoverZoom 组件 -->
+        <a href="https://baidu.com" target="_blank" class="hover-container">
           <HoverZoom 
             :src="require('@/assets/4.jpg')" 
+            :backSrc="require('@/assets/1.jpg')"
             alt="Profile Picture" 
+            backAlt="back Picture"
           />
         </a>
       </div>
     </section>
 
-    <section class="skills">
-      <p>Skills</p>
-      <!-- 词云部分保持不变 -->
-      <WordCloud />
-    </section>
-
-    <section class="about-me">
-      <div class="card">
-        <h3>教育背景</h3>
-        <p>毕业于某大学，主修计算机科学。</p>
+    <section class="skills-and-cards">
+      <div class="skills">
+        <p>Skills</p>
+        <WordCloud />
       </div>
-      <div class="card">
-        <h3>兴趣爱好</h3>
-        <p>喜欢看电影、跑步和编程。</p>
+      
+      <div class="about-me">
+        <div class="card">
+          <h3>教育背景</h3>
+          <p>毕业于某大学，主修计算机科学。</p>
+        </div>
+        <div class="card">
+          <h3>兴趣爱好</h3>
+          <p>喜欢看电影、跑步和编程。</p>
+        </div>
       </div>
     </section>
 
@@ -125,6 +126,13 @@ body {
 #app {
   text-align: center;
   padding: 20px;
+  animation: fadeIn 2s forwards; /* 页面渐显 */
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .header {
@@ -135,32 +143,31 @@ body {
   animation: fadeIn 2s forwards;
 }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-
 .intro {
-  display: flex;                      /* 使用 Flexbox 布局 */
-  justify-content: space-between;     /* 元素之间的间距自动分配 */
-  align-items: center;                /* 垂直方向居中 */
-  padding: 20px;
+  display: flex; 
+  justify-content: space-between;     
+  align-items: center;                
+  padding: 30px;                     
   background-color: #fff;
   margin-top: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.profile-left a:hover img,
-.profile-center a:hover img,
-.profile-right a:hover img {
-  transform: scale(1.1);  /* 图片放大 */
-  transition: transform 0.3s ease; /* 添加平滑过渡 */
+.profile-left, .profile-center, .profile-right {
+  position: relative;
+  width: 30%;
+}
+
+.skills-and-cards {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 20px;
 }
 
 .skills {
-  margin-top: 20px;
+  width: 45%;
   background-color: #ffffff;
   text-align: center;
   font-size: 36px;
@@ -171,9 +178,9 @@ body {
 
 .about-me {
   display: flex;
-  justify-content: space-around;
-  padding: 20px;
-  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
 }
 
 .card {
@@ -181,19 +188,9 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 200px;
+  width: 100%;
+  margin-bottom: 20px;
   text-align: center;
-}
-
-.card h3 {
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #4CAF50;
-}
-
-.card p {
-  font-size: 16px;
-  color: #333;
 }
 
 .contact {
@@ -255,37 +252,21 @@ a {
   text-decoration: none;
 }
 
-.profile-left, .profile-center, .profile-right {
-  display: flex;
-  justify-content: center;            /* 水平居中 */
-  align-items: center;                /* 垂直居中 */
-}
-
-.profile-left a, .profile-center a, .profile-right a {
-  display: block;                    /* 使 <a> 标签充满父容器 */
-  text-decoration: none;              /* 移除链接下划线 */
-}
-
-.profile-left {
-  justify-content: flex-start;       /* 左对齐 */
-  margin-left: 30px;
-}
-
-.profile-center {
-  justify-content: center;           /* 居中对齐 */
-}
-
-.profile-right {
-  justify-content: flex-end;         /* 右对齐 */
-  margin-right: 30px;
-}
-
 @media (max-width: 768px) {
   .intro {
-    flex-direction: column;   /* 在手机端将三列布局改为竖排 */
+    flex-direction: column;   
   }
   .profile-left, .profile-center, .profile-right {
     margin-bottom: 20px;
+  }
+
+  .skills-and-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .skills, .about-me {
+    width: 100%;
   }
 }
 </style>
