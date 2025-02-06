@@ -1,11 +1,17 @@
 <template>
-  <div class="zoom-container">
-    <div class="flip-container" @mouseover="zoomIn" @mouseleave="zoomOut">
-      <div class="flipper" ref="flipper">
-        <!-- 正面图片 -->
-        <img class="profile-pic front" :src="src" :alt="alt" />
-        <!-- 反面图片 -->
-        <img class="profile-pic back" :src="backSrc" :alt="backAlt" />
+  <!-- 容器，监听鼠标悬停和离开事件 -->
+  <div class="container" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
+    <!-- 包裹图片的容器，使用ref引用来操作DOM -->
+    <div class="image-container" ref="imageContainer">
+      <!-- 正面图片 -->
+      <div class="image-front">
+        <!-- 绑定传入的正面图片路径和alt描述 -->
+        <img :src="src" :alt="alt" />
+      </div>
+      <!-- 反面图片 -->
+      <div class="image-back">
+        <!-- 绑定传入的反面图片路径和alt描述 -->
+        <img :src="backSrc" :alt="backAlt" />
       </div>
     </div>
   </div>
@@ -13,17 +19,17 @@
 
 <script>
 export default {
-  name: 'HoverZoom',
+  // 组件接收的props，分别是正面图片、反面图片、正面图片alt、反面图片alt
   props: {
     src: {
       type: String,
       required: true
     },
-    alt: {
+    backSrc: {
       type: String,
       required: true
     },
-    backSrc: {
+    alt: {
       type: String,
       required: true
     },
@@ -33,66 +39,63 @@ export default {
     }
   },
   methods: {
-    zoomIn() {
-      const flipper = this.$refs.flipper;
-
-      // 鼠标悬停时开始旋转到540度
-      flipper.style.transition = "transform 2s ease-in-out";  // 旋转到540度的动画
-      flipper.style.transform = "rotateY(540deg)";  // 旋转540度
+    // 鼠标悬停时，放大并旋转图片
+    handleMouseOver() {
+      this.$refs.imageContainer.style.transform = 'scale(1.2) rotateY(540deg)'; // 放大并旋转
     },
-    zoomOut() {
-      const flipper = this.$refs.flipper;
-
-      // 鼠标移开时加速回到正面
-      flipper.style.transition = "transform 1s ease-out";  // 加速回正面
-      flipper.style.transform = "rotateY(0deg)";  // 恢复为正面
+    // 鼠标离开时，恢复原状
+    handleMouseLeave() {
+      this.$refs.imageContainer.style.transform = 'scale(1) rotateY(0deg)'; // 恢复原始大小并恢复旋转
     }
   }
 }
 </script>
 
 <style scoped>
-.zoom-container {
-  perspective: 1200px; /* 3D透视深度 */
+/* 设置父容器的3D视角 */
+.container {
+  perspective: 1000px; /* 给容器设置透视效果，影响3D效果的深度 */
+  display: inline-block; /* 保证容器内的内容排列在一行 */
 }
 
-.flip-container {
-  width: 200px;
-  height: 200px;
-  position: relative;
-  cursor: pointer;
-  transform-style: preserve-3d; /* 允许子元素在3D空间中旋转 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* 设置图片容器，保持3D效果 */
+.image-container {
+  width: 200px; /* 设置图片容器的宽度 */
+  height: 200px; /* 设置图片容器的高度 */
+  position: relative; /* 使用相对定位来设置图片容器的位置 */
+  transform-style: preserve-3d; /* 保持3D变换的效果 */
+  transition: transform 1s ease; /* 给transform添加过渡效果，使动画平滑 */
 }
 
-.flipper {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  transform-style: preserve-3d; /* 保持3D效果 */
-  transform-origin: center; /* 保证旋转围绕图片的中心 */
-  transform: rotateY(0deg); /* 初始状态为正面 */
+/* 正面和反面图片的共同样式 */
+.image-front,
+.image-back {
+  position: absolute; /* 设置为绝对定位，使其重叠在一起 */
+  top: 0; /* 从容器的顶部开始 */
+  left: 0; /* 从容器的左边开始 */
+  right: 0; /* 容器的右边 */
+  bottom: 0; /* 容器的底边 */
+  backface-visibility: hidden; /* 隐藏翻转后的反面内容 */
+  border-radius: 50%; /* 保证图片是圆形 */
+}
+
+/* 设置图片的宽度和高度，使其填充容器 */
+.image-front img,
+.image-back img {
+  width: 100%; /* 图片宽度为容器宽度 */
+  height: 100%; /* 图片高度为容器高度 */
+  object-fit: cover; /* 保证图片按比例裁切，保持其覆盖整个容器 */
+  border-radius: 50%; /* 保证图片圆形 */
+}
+
+/* 反面图片的旋转，使其处于正面的背后 */
+.image-back {
+  transform: rotateY(180deg); /* 反面图片旋转180度，背对用户 */
+}
+
+/* a 标签样式，确保其是块级元素并去掉链接的下划线 */
+a {
   display: block;
-}
-
-.profile-pic {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;  /* 圆形图片 */
-  object-fit: cover;
-  position: absolute;
-  backface-visibility: hidden; /* 隐藏背面图片 */
-}
-
-/* 正面图片 */
-.profile-pic.front {
-  transform: rotateY(0deg); /* 正面图片初始时无需旋转 */
-}
-
-/* 反面图片 */
-.profile-pic.back {
-  transform: rotateY(180deg); /* 反面图片初始时旋转180度 */
+  text-decoration: none;
 }
 </style>

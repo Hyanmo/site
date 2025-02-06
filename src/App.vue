@@ -167,7 +167,8 @@ body {
 }
 
 .skills {
-  width: 45%;
+  width: 50%;
+  height: 400px;
   background-color: #ffffff;
   text-align: center;
   font-size: 36px;

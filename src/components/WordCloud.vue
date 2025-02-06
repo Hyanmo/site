@@ -1,7 +1,7 @@
 <template>
   <div class="skill-cloud">
-    <div 
-      v-for="(skill, index) in skills" 
+    <div
+      v-for="(skill, index) in skills"
       :key="index"
       class="skill-item"
       :style="{
@@ -9,11 +9,10 @@
         top: skill.y + 'px',
         fontSize: skill.size + 'px',
         color: skill.color,
-        transform: skill.isHovered ? 'scale(1.5)' : 'scale(1)' // 放大效果
+        transform: 'scale(' + skill.scale + ')'
       }"
-      @mouseenter="onMouseEnter(index)"  
-      @mouseleave="onMouseLeave(index)" 
-    >
+      @mouseover="hoverIn(index)"
+      @mouseleave="hoverOut(index)">
       {{ skill.text }}
     </div>
   </div>
@@ -24,23 +23,18 @@ export default {
   data() {
     return {
       skills: [
-        { text: 'Vue.js', size: 24, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(160, 70%, 50%)', isHovered: false },
-        { text: 'JavaScript', size: 28, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(200, 70%, 50%)', isHovered: false },
-        { text: 'HTML5', size: 22, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(280, 70%, 50%)', isHovered: false },
-        { text: 'CSS3', size: 22, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(320, 70%, 50%)', isHovered: false },
-        { text: 'Node.js', size: 20, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(40, 70%, 50%)', isHovered: false },
-        { text: 'Git', size: 18, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(80, 70%, 50%)', isHovered: false },
-        { text: 'Python', size: 26, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(120, 70%, 50%)', isHovered: false },
-        { text: 'React', size: 24, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(240, 70%, 50%)', isHovered: false },
-        { text: 'TypeScript', size: 20, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(360, 70%, 50%)', isHovered: false }
+        { text: 'Vue.js', size: 24, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(160, 70%, 50%)', scale: 1 },
+        { text: 'JavaScript', size: 28, x: 0, y: 0, speedX: (Math.random() - 0.5) * 2, speedY: (Math.random() - 0.5) * 2, color: 'hsl(200, 70%, 50%)', scale: 1 },
+        // 你可以继续添加其他技能
       ],
       containerWidth: 0,
-      containerHeight: 300,
+      containerHeight: 0,
       animationId: null
     };
   },
   mounted() {
     this.containerWidth = this.$el.offsetWidth;
+    this.containerHeight = this.$el.offsetHeight;
     this.initPositions();
     this.startAnimation();
     window.addEventListener('resize', this.handleResize);
@@ -60,6 +54,8 @@ export default {
     },
     handleResize() {
       this.containerWidth = this.$el.offsetWidth;
+      this.containerHeight = this.$el.offsetHeight;
+      this.initPositions();
     },
     startAnimation() {
       const animate = () => {
@@ -71,29 +67,29 @@ export default {
     updatePositions() {
       const speedFactor = 0.4;
       this.skills.forEach(skill => {
-        // 只有在没有悬停时才更新位置
-        if (!skill.isHovered) {
-          skill.x += skill.speedX * speedFactor;
-          skill.y += skill.speedY * speedFactor;
-        }
+        skill.x += skill.speedX * speedFactor;
+        skill.y += skill.speedY * speedFactor;
 
-        // 边界检测
-        if (skill.x <= 0 || skill.x >= this.containerWidth) {
+        // 防止词云元素超出容器范围
+        if (skill.x <= 0 || skill.x >= this.containerWidth - skill.size) {
           skill.speedX *= -1;
+          skill.speedX += (Math.random() - 0.5) * 0.5; // 随机改变速度
         }
-        if (skill.y <= 0 || skill.y >= this.containerHeight) {
+        if (skill.y <= 0 || skill.y >= this.containerHeight - skill.size) {
           skill.speedY *= -1;
+          skill.speedY += (Math.random() - 0.5) * 0.5; // 随机改变速度
         }
 
-        skill.x = Math.max(0, Math.min(skill.x, this.containerWidth - 100));  // 限制 x 范围，避免超出
-        skill.y = Math.max(0, Math.min(skill.y, this.containerHeight - 30));  // 限制 y 范围，避免超出
+        // 限制技能位置在容器内部
+        skill.x = Math.max(0, Math.min(skill.x, this.containerWidth - skill.size));
+        skill.y = Math.max(0, Math.min(skill.y, this.containerHeight - skill.size));
       });
     },
-    onMouseEnter(index) {
-      this.skills[index].isHovered = true;
+    hoverIn(index) {
+      this.skills[index].scale = 1.5;  // 放大
     },
-    onMouseLeave(index) {
-      this.skills[index].isHovered = false;
+    hoverOut(index) {
+      this.skills[index].scale = 1;    // 恢复
     }
   }
 };
@@ -103,16 +99,18 @@ export default {
 .skill-cloud {
   position: relative;
   width: 100%;
-  height: 300px;
-  overflow: hidden;
+  height: 80%;
+  overflow: hidden; /* 确保词云不会超出容器 */
 }
 
 .skill-item {
   position: absolute;
-  transition: transform 0.3s ease-in-out, font-size 0.3s ease-in-out;  /* 增加放大和缩小的过渡效果 */
+  transition: transform 0.3s ease-in-out;
+  font-family: 'Pacifico', cursive; /* 设置可爱字体 */
+  cursor: pointer; /* 鼠标变成手型 */
 }
 
 .skill-item:hover {
-  cursor: pointer;  /* 鼠标悬停时显示为指针 */
+  transform: scale(1.5); /* 鼠标悬停时放大 */
 }
 </style>
