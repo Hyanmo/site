@@ -13,9 +13,6 @@
     <!-- 路由出口：根据路由切换显示页面 -->
     <router-view></router-view>
 
-    <footer>
-      <p>&copy; 2025 My Vue App</p>
-    </footer>
   </div>
 </template>
 
@@ -87,10 +84,4 @@ button:hover {
   background-color: #d32f2f;
 }
 
-footer {
-  margin-top: 20px;
-  background-color: #f1f1f1;
-  padding: 10px;
-  text-align: center;
-}
 </style>
