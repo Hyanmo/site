@@ -41,27 +41,14 @@
       </div>
     </section>
 
-    <section class="skills-and-cards">
-      <div class="skills">
-        <p>Skills</p>
-        <WordCloud />
-      </div>
-      
-      <div class="about-me">
-        <div class="card">
-          <h3>教育背景</h3>
-          <p>毕业于某大学，主修计算机科学。</p>
-        </div>
-        <div class="card">
-          <h3>兴趣爱好</h3>
-          <p>喜欢看电影、跑步和编程。</p>
-        </div>
-      </div>
+    <section class="emotion">
+      <p>如果心情不好就多点几下</p>
+      <WordCloud />
     </section>
 
     <!-- 留言板 -->
     <section class="contact">
-      <MessageBoard/>  
+      <MessageBoard />  
     </section>
 
     <section class="social-media">
@@ -134,19 +121,22 @@ export default {
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(45deg, #ff6b6b, #f4f4f4);  /* 渐变背景 */
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ff6b6b, #f4f4f4);  /* 渐变背景 */
   color: #333;
 }
 
 #app {
   text-align: center;
-  padding: 20px;
-  animation: fadeIn 2s forwards; /* 页面渐显 */
+  padding: 30px;
+  animation: fadeIn 2s ease-in forwards; /* 页面渐显 */
 }
 
 @keyframes fadeIn {
-  to {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }
@@ -154,68 +144,70 @@ body {
 .header {
   background-color: #4CAF50;
   color: white;
-  padding: 20px;
+  padding: 25px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  animation: fadeIn 2s forwards;
+  animation: fadeIn 2s ease-in forwards;
+}
+
+.header h1 {
+  font-size: 36px;
 }
 
 .intro {
-  display: flex; 
-  justify-content: space-between;     
-  align-items: center;                
-  padding: 30px;                     
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 40px;
   background-color: #fff;
-  margin-top: 20px;
+  margin-top: 30px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .profile-left, .profile-center, .profile-right {
   position: relative;
-  width: 30%;
+  width: 28%;
+  margin: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
-.skills-and-cards {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  margin-top: 20px;
+.profile-left:hover, .profile-center:hover, .profile-right:hover {
+  transform: scale(1.05);
 }
 
-.skills {
-  width: 50%;
-  height: 400px;
+.profile-left img, .profile-center img, .profile-right img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.emotion {
+  width: 100%;
+  height: 500px; /* 你可以根据需求修改为100%来自适应 */
   background-color: #ffffff;
   text-align: center;
   font-size: 36px;
   font-weight: bold;
-  padding: 20px;
+  padding: 40px;
   border: 6px solid #4CAF50;
-}
-
-.about-me {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 45%;
-}
-
-.card {
-  background-color: #fff;
-  padding: 20px;
+  box-sizing: border-box; /* 确保 padding 被计算在内 */
+  margin-top: 40px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  margin-bottom: 20px;
-  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+
 
 .contact {
-  padding: 20px;
   background-color: #fff;
-  margin-top: 20px;
+  margin-top: 40px;
+  padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .contact h2 {
@@ -230,9 +222,9 @@ body {
 
 .message {
   background-color: #f9f9f9;
-  padding: 15px;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
   text-align: left;
 }
@@ -294,14 +286,14 @@ body {
 .social-media {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
+  gap: 25px;
+  margin-top: 30px;
 }
 
 .social-media i {
-  font-size: 30px;
+  font-size: 36px;
   color: #4CAF50;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
 .social-media i:hover {
@@ -309,17 +301,18 @@ body {
 }
 
 .cta {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .cta button {
   background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cta button:hover {
@@ -327,10 +320,12 @@ body {
 }
 
 .footer {
-  padding: 20px;
   background-color: #333;
   color: white;
+  padding: 20px;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 60px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 </style>
