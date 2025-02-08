@@ -2,59 +2,51 @@
   <div id="app">
     <MyPet />
     <header class="header">
-      <h1>个人主页</h1>
+      <h1>狗老师的秘密基地</h1>
       <p>你好，我是狗老师</p>
     </header>
 
     <section class="intro">
       <div class="profile-left">
-        <a href="https://baidu.com" target="_blank" class="hover-container">
-          <HoverZoom 
-            :src="require('@/assets/2.jpg')" 
-            :backSrc="require('@/assets/1.jpg')"
-            alt="Profile Picture" 
-            backAlt="back Picture"
-          />
-        </a>
+        <router-link to="/video-play" class="hover-container"> <!-- 添加 Vue Router 路由链接 -->
+          <HoverZoom :src="require('@/assets/2.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
+            backAlt="Back Picture" />
+        </router-link>
+        <p> video </p>
       </div>
 
       <div class="profile-center">
-        <a href="https://baidu.com" target="_blank" class="hover-container">
-          <HoverZoom 
-            :src="require('@/assets/3.jpg')" 
-            :backSrc="require('@/assets/1.jpg')"
-            alt="Profile Picture"
-            backAlt="back Picture" 
-          />
-        </a>
+        <router-link to="/photo-gallery" class="hover-container"> <!-- 添加 Vue Router 路由链接 -->
+          <HoverZoom :src="require('@/assets/3.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
+            backAlt="Back Picture" />
+        </router-link>
+        <p> photo </p>
       </div>
 
       <div class="profile-right">
-        <a href="https://baidu.com" target="_blank" class="hover-container">
-          <HoverZoom 
-            :src="require('@/assets/4.jpg')" 
-            :backSrc="require('@/assets/1.jpg')"
-            alt="Profile Picture" 
-            backAlt="back Picture"
-          />
-        </a>
+        <router-link to="/music-play" class="hover-container"> <!-- 添加 Vue Router 路由链接 -->
+          <HoverZoom :src="require('@/assets/4.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
+            backAlt="Back Picture" />
+        </router-link>
+        <p> music </p>
       </div>
     </section>
 
-    <section class="emotion">
-      <p>如果心情不好就多点几下</p>
-      <WordCloud />
+    <section>
+      <div class="emotion">
+        <Emotion />
+      </div>
     </section>
 
     <!-- 留言板 -->
     <section class="contact">
-      <MessageBoard />  
+      <MessageBoard />
     </section>
 
     <section class="social-media">
-      <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
-      <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Hyanmo" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://twitter.com/Yanmoo_gou" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://linkedin.com/in/yanmo-huang-b4363a339" target="_blank"><i class="fab fa-linkedin"></i></a>
     </section>
 
     <section class="cta">
@@ -70,15 +62,15 @@
 
 <script>
 import MyPet from '../components/MyPet.vue';
-import WordCloud from '../components/WordCloud.vue';
 import HoverZoom from '../components/HoverZoom.vue';
 import MessageBoard from '@/components/MessageBoard.vue';
+import Emotion from '../components/Emotion.vue';
 
 export default {
   name: 'App',
   components: {
     MyPet,
-    WordCloud,  
+    Emotion,
     HoverZoom,
     MessageBoard
   },
@@ -101,7 +93,7 @@ export default {
         content: this.messageContent,
         date: new Date().toLocaleString()  // 获取当前日期和时间
       };
-      
+
       // 将新留言添加到 messages 数组
       this.messages.push(newMessage);
 
@@ -122,20 +114,23 @@ export default {
 
 body {
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #ff6b6b, #f4f4f4);  /* 渐变背景 */
+  background: linear-gradient(135deg, #ff6b6b, #f4f4f4);
+  /* 渐变背景 */
   color: #333;
 }
 
 #app {
   text-align: center;
   padding: 30px;
-  animation: fadeIn 2s ease-in forwards; /* 页面渐显 */
+  animation: fadeIn 2s ease-in forwards;
+  /* 页面渐显 */
 }
 
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -168,18 +163,24 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.profile-left, .profile-center, .profile-right {
+.profile-left,
+.profile-center,
+.profile-right {
   position: relative;
   width: 28%;
   margin: 10px;
   transition: transform 0.3s ease-in-out;
 }
 
-.profile-left:hover, .profile-center:hover, .profile-right:hover {
+.profile-left:hover,
+.profile-center:hover,
+.profile-right:hover {
   transform: scale(1.05);
 }
 
-.profile-left img, .profile-center img, .profile-right img {
+.profile-left img,
+.profile-center img,
+.profile-right img {
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -187,17 +188,19 @@ body {
 
 .emotion {
   width: 100%;
-  height: 500px; /* 你可以根据需求修改为100%来自适应 */
+  height: 500px;
+  /* 你可以根据需求修改为100%来自适应 */
   background-color: #ffffff;
   text-align: center;
   font-size: 36px;
   font-weight: bold;
   padding: 40px;
   border: 6px solid #4CAF50;
-  box-sizing: border-box; /* 确保 padding 被计算在内 */
+  box-sizing: border-box;
+  /* 确保 padding 被计算在内 */
   margin-top: 40px;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 
