@@ -8,34 +8,42 @@
 
     <section class="intro">
       <div class="profile-left">
-        <router-link to="/video-play" class="hover-container"> <!-- 添加 Vue Router 路由链接 -->
-          <HoverZoom :src="require('@/assets/2.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
+        <router-link to="/video-play" class="hover-container">
+          <HoverZoom :src="require('@/assets/2.jpg')" :backSrc="require('@/assets/6.jpg')" alt="Profile Picture"
             backAlt="Back Picture" />
         </router-link>
-        <p> video </p>
+        <p class="profile-text">video</p>
       </div>
 
       <div class="profile-center">
-        <router-link to="/photo-gallery" class="hover-container"> <!-- 添加 Vue Router 路由链接 -->
-          <HoverZoom :src="require('@/assets/3.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
+        <router-link to="/photo-gallery" class="hover-container">
+          <HoverZoom :src="require('@/assets/3.jpg')" :backSrc="require('@/assets/5.jpg')" alt="Profile Picture"
             backAlt="Back Picture" />
         </router-link>
-        <p> photo </p>
+        <p class="profile-text">photo</p>
       </div>
 
       <div class="profile-right">
-        <router-link to="/music-play" class="hover-container"> <!-- 添加 Vue Router 路由链接 -->
+        <router-link to="/music-play" class="hover-container">
           <HoverZoom :src="require('@/assets/4.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
             backAlt="Back Picture" />
         </router-link>
-        <p> music </p>
+        <p class="profile-text">music</p>
       </div>
     </section>
 
-    <section>
-      <div class="emotion">
-        <Emotion />
+
+    <!-- Emotion Section -->
+    <section class="emotion">
+      <h2 class="emotion-title">我的秘密基地</h2>
+      <div class="emotion-content">
+        <p>欢迎来到狗老师的秘密基地，因为在学习vue，就想着能不能做一个网页和朋友们一起互动。</p>
+        <p>在这里，你可以与我一起分享故事、音乐、视频等，希望你天天开心～</p>
       </div>
+      <div class="emotion-animation">
+        <img src="@/assets/image/Emotion.gif" alt="Heart Animation" />
+      </div>
+      <Emotion />
     </section>
 
     <!-- 留言板 -->
@@ -51,7 +59,7 @@
 
     <section class="cta">
       <button @click="showMore">了解更多</button>
-      <p v-if="isMoreInfoVisible">这里可以是更多的关于我或者其他的内容。</p>
+      <p v-if="isMoreInfoVisible">其实没有更多，但是我很爱按按钮，这个可以按来按去</p>
     </section>
 
     <footer class="footer">
@@ -87,17 +95,12 @@ export default {
       this.isMoreInfoVisible = !this.isMoreInfoVisible;
     },
     submitMessage() {
-      // 提交留言时，创建一个新的留言对象
       const newMessage = {
         username: this.username,
         content: this.messageContent,
-        date: new Date().toLocaleString()  // 获取当前日期和时间
+        date: new Date().toLocaleString()
       };
-
-      // 将新留言添加到 messages 数组
       this.messages.push(newMessage);
-
-      // 清空输入框
       this.username = '';
       this.messageContent = '';
     }
@@ -115,7 +118,6 @@ export default {
 body {
   font-family: 'Arial', sans-serif;
   background: linear-gradient(135deg, #ff6b6b, #f4f4f4);
-  /* 渐变背景 */
   color: #333;
 }
 
@@ -123,7 +125,6 @@ body {
   text-align: center;
   padding: 30px;
   animation: fadeIn 2s ease-in forwards;
-  /* 页面渐显 */
 }
 
 @keyframes fadeIn {
@@ -143,8 +144,6 @@ body {
   text-align: center;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  animation: fadeIn 2s ease-in forwards;
 }
 
 .header h1 {
@@ -186,24 +185,81 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.emotion {
-  width: 100%;
-  height: 500px;
-  /* 你可以根据需求修改为100%来自适应 */
-  background-color: #ffffff;
-  text-align: center;
-  font-size: 36px;
+/* 美化视频、照片和音乐文字 */
+.profile-text {
+  font-size: 24px;
   font-weight: bold;
-  padding: 40px;
-  border: 6px solid #4CAF50;
-  box-sizing: border-box;
-  /* 确保 padding 被计算在内 */
-  margin-top: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: #4CAF50;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-text:hover {
+  transform: scale(1.1); /* 鼠标悬停时放大文字 */
 }
 
 
+/* Emotion Section */
+.emotion {
+  background: linear-gradient(135deg, #ff9a8b, #ff6a00);
+  color: white;
+  text-align: center;
+  padding: 50px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+}
+
+.emotion h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  animation: slideIn 2s ease-in;
+}
+
+.emotion-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.emotion-animation img {
+  width: 150px;
+  margin-top: 20px;
+  animation: bounce 2s infinite;
+}
+
+/* Animation for bounce */
+@keyframes bounce {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-30px);
+  }
+
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 .contact {
   background-color: #fff;
@@ -211,79 +267,6 @@ body {
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.contact h2 {
-  font-size: 24px;
-  color: #4CAF50;
-  margin-bottom: 20px;
-}
-
-.message-board {
-  margin-bottom: 30px;
-}
-
-.message {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.message h4 {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.message p {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.message .time {
-  font-size: 12px;
-  color: #999;
-  text-align: right;
-  display: block;
-}
-
-.message-form h3 {
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.message-form input,
-.message-form textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-.message-form textarea {
-  min-height: 100px;
-}
-
-.message-form button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.message-form button:hover {
-  background-color: #45a049;
 }
 
 .social-media {
@@ -299,15 +282,8 @@ body {
   transition: color 0.3s ease;
 }
 
-.social-media i:hover {
-  color: #333;
-}
-
-.cta {
-  margin-top: 40px;
-}
-
 .cta button {
+  margin-top: 20px;
   background-color: #4CAF50;
   color: white;
   padding: 12px 25px;
@@ -315,11 +291,6 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cta button:hover {
-  background-color: #45a049;
 }
 
 .footer {
@@ -327,7 +298,7 @@ body {
   color: white;
   padding: 20px;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 40px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

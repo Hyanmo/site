@@ -76,7 +76,7 @@ export default {
     return {
       newEmotion: '',
       emotions: [],
-      containerPosition: { x: 50, y: 50 },  // 默认位置相对于父容器
+      containerPosition: { x: 0, y: 0 },  // 默认位置相对于父容器
       containerWidth: 0,
       containerHeight: 0,
       showBlessing: false,
@@ -90,8 +90,8 @@ export default {
     const rect = parentContainer.getBoundingClientRect();
 
     // 设置初始位置为父容器内的 (50, 50)
-    this.containerPosition.x = rect.left + 50;
-    this.containerPosition.y = rect.top + 50;
+    this.containerPosition.x = rect.left + 25;
+    this.containerPosition.y = rect.top + 200;
 
     this.containerWidth = this.$el.offsetWidth;
     this.containerHeight = this.$el.offsetHeight;

@@ -7,7 +7,7 @@
           <video ref="videoPlayer" :src="videoUrl" controls autoplay></video>
         </div>
         <div v-else class="no-video">
-          <p>请拖拽 MP4 文件到此区域播放</p>
+          <p>请拖拽 MP4 文件到下方区域播放</p>
         </div>
       </div>
   
