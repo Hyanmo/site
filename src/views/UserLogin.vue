@@ -15,6 +15,11 @@
 
     <!-- 显示错误信息 -->
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
+
+    <!-- Display the welcome message with animation -->
+    <div v-if="welcomeMessage" class="welcome-message">
+      <p>{{ welcomeMessage }}</p>
+    </div>
   </div>
 </template>
 
@@ -28,6 +33,7 @@ export default {
       username: '',
       password: '',
       errorMessage: '',
+      welcomeMessage: '',
     };
   },
   methods: {
@@ -41,10 +47,18 @@ export default {
 
         // 假设响应中有一个 status 字段，表示登录状态
         if (response.data.status === 'success') {
-          // 登录成功，存储登录状态并跳转到个人页面
+          // 登录成功，存储登录状态
           localStorage.setItem('isLoggedIn', 'true');
-          this.$router.push({ name: 'Profile' }); // 确保 Profile 页面路由存在
-          this.errorMessage = '';  // 清除任何显示的错误消息
+          
+          // Show the welcome message and fade it in
+          this.welcomeMessage = response.data.welcomeMessage;  // Set welcome message
+          
+          // Use timeout to delay the transition to Profile page
+          setTimeout(() => {
+            this.$router.push({ name: 'Profile' }); // Ensure Profile page route exists
+          }, 3000); // Delay 2 seconds (adjust as needed)
+          
+          this.errorMessage = '';  // Clear any displayed error messages
         } else {
           // 登录失败，显示错误消息
           this.errorMessage = response.data.message || 'Login failed';
@@ -97,5 +111,23 @@ button {
 
 button:hover {
   background-color: #367c57;
+}
+
+/* Styling for the welcome message with fade effect */
+.welcome-message {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #42b983;
+  animation: fadeIn 2s ease-in;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>

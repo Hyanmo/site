@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import UserLogin from '@/views/UserLogin.vue';
 import ProfilePage from '@/views/ProfilePage.vue';
-import VideoPlay from '@/views/VideoPlay.vue';
+import GameSudoku from '@/views/GameSudoku.vue';
 import PhotoGallery from '@/views/PhotoGallery.vue';
 import MusicPlay from '@/views/MusicPlay.vue';
 
-// 路由配置
 const routes = [
   {
     path: '/login',
@@ -24,22 +23,24 @@ const routes = [
         next(); // 继续访问个人主页
       }
     },
-  },
-  {
-    path: '/video-play',
-    name: 'VideoPlay',
-    component: VideoPlay,
-  },
-  {
-    path: '/photo-gallery',
-    name: 'PhotoGallery',
-    component: PhotoGallery,
-  },
-  {
-    path: '/music-play',
-    name: 'MusicPlay',
-    component: MusicPlay,
-  },
+    children: [
+      {
+        path: 'photo-gallery',  // 这里不需要以 `/profile` 开头
+        name: 'PhotoGallery',
+        component: PhotoGallery,
+      },
+      {
+        path: 'music-play',  // 这里不需要以 `/profile` 开头
+        name: 'MusicPlay',
+        component: MusicPlay,
+      },
+      {
+        path: 'sudoku-game1',  // 这里不需要以 `/profile` 开头
+        name: 'Sudoku',
+        component: GameSudoku,
+      }
+    ]
+  }
 ];
 
 const router = createRouter({

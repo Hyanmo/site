@@ -8,15 +8,15 @@
 
     <section class="intro">
       <div class="profile-left">
-        <router-link to="/video-play" class="hover-container">
+        <router-link to="/profile/sudoku-game1" class="hover-container">
           <HoverZoom :src="require('@/assets/2.jpg')" :backSrc="require('@/assets/6.jpg')" alt="Profile Picture"
             backAlt="Back Picture" />
         </router-link>
-        <p class="profile-text">video</p>
+        <p class="profile-text">Sudoku-game</p>
       </div>
 
       <div class="profile-center">
-        <router-link to="/photo-gallery" class="hover-container">
+        <router-link to="/profile/photo-gallery" class="hover-container">
           <HoverZoom :src="require('@/assets/3.jpg')" :backSrc="require('@/assets/5.jpg')" alt="Profile Picture"
             backAlt="Back Picture" />
         </router-link>
@@ -24,13 +24,14 @@
       </div>
 
       <div class="profile-right">
-        <router-link to="/music-play" class="hover-container">
+        <router-link to="/profile/music-play" class="hover-container">
           <HoverZoom :src="require('@/assets/4.jpg')" :backSrc="require('@/assets/1.jpg')" alt="Profile Picture"
             backAlt="Back Picture" />
         </router-link>
         <p class="profile-text">music</p>
       </div>
     </section>
+    <router-view></router-view>
 
 
     <!-- Emotion Section -->
@@ -38,7 +39,7 @@
       <h2 class="emotion-title">我的秘密基地</h2>
       <div class="emotion-content">
         <p>欢迎来到狗老师的秘密基地，因为在学习vue，就想着能不能做一个网页和朋友们一起互动。</p>
-        <p>在这里，你可以与我一起分享故事、音乐、视频等，希望你天天开心～</p>
+        <p>在这里，你可以与我一起分享故事和音乐，希望你天天开心～</p>
       </div>
       <div class="emotion-animation">
         <img src="@/assets/image/Emotion.gif" alt="Heart Animation" />

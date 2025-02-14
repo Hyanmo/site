@@ -76,7 +76,7 @@ export default {
     return {
       newEmotion: '',
       emotions: [],
-      containerPosition: { x: 0, y: 0 },  // 默认位置相对于父容器
+      containerPosition: { x: 100, y: 100 },  // 默认位置相对于父容器
       containerWidth: 0,
       containerHeight: 0,
       showBlessing: false,
@@ -85,14 +85,6 @@ export default {
     };
   },
   mounted() {
-    // 获取父容器的位置并设置初始位置
-    const parentContainer = this.$refs.container.parentElement;
-    const rect = parentContainer.getBoundingClientRect();
-
-    // 设置初始位置为父容器内的 (50, 50)
-    this.containerPosition.x = rect.left + 25;
-    this.containerPosition.y = rect.top + 200;
-
     this.containerWidth = this.$el.offsetWidth;
     this.containerHeight = this.$el.offsetHeight;
     window.addEventListener('resize', this.handleResize);
@@ -206,6 +198,10 @@ export default {
   font-size: 26px; /* 标题字体大小调整 */
   color: #2e8b57;
   margin-bottom: 20px;
+}
+
+.bin-title{
+  color: #2e8b57;
 }
 
 .emotion-selection {
