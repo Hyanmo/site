@@ -18,11 +18,12 @@
         >
           <input
             v-if="cell.editable"
-            type="number"
+            type="text"
             v-model="cell.value"
             @input="onInputChange(index)"
-            :min="1"
-            :max="9"
+            maxlength="1" 
+            pattern="[1-9]"  
+            :placeholder="cell.value === '' ? ' ' : ''"
           />
           <span v-else>{{ cell.value }}</span>
         </div>
@@ -216,39 +217,42 @@ export default {
   font-family: Arial, sans-serif;
   text-align: center;
   margin-top: 20px;
+  padding: 0 10px;
 }
 
 .sudoku-wrap {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 20px;
+  width: 100%;
 }
 
 .sudoku-board {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   grid-gap: 5px;
-  max-width: 540px;
+  max-width: 480px;
+  width: 100%;
 }
 
 .sudoku-cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: 45px; /* 调整为适合移动端的尺寸 */
+  height: 45px;
   background-color: #fff;
   border: 2px solid #ccc;
-  font-size: 24px;
+  font-size: 20px; /* 减小字体以适应较小的格子 */
   font-weight: bold;
 }
 
 .sudoku-cell.editable input {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   border: 2px solid #ccc;
-  font-size: 24px;
+  font-size: 20px;
   background-color: #fff;
   outline: none;
 }
@@ -275,7 +279,8 @@ export default {
 }
 
 .check-wrap {
-  margin-top: 20px;
+  margin-top: 15px;
+  font-size: 16px; /* 调整字体大小 */
 }
 
 .center-horizontal {
@@ -295,9 +300,10 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px; /* 字体适应手机屏幕 */
   margin-top: 10px;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
 }
 
 button:hover {
@@ -314,4 +320,59 @@ button:hover {
   color: #2ecc71;
   margin-top: 20px;
 }
+
+@media (max-width: 768px) {
+  .sudoku-board {
+    max-width: 400px;
+  }
+
+  .sudoku-cell {
+    width: 40px;
+    height: 40px;
+    font-size: 18px; /* 调整字体大小 */
+  }
+
+  .sudoku-cell.editable input {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  #timer {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sudoku-board {
+    max-width: 320px; /* 更小的屏幕适应 */
+  }
+
+  .sudoku-cell {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .sudoku-cell.editable input {
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  #timer {
+    font-size: 14px;
+  }
+}
+
 </style>

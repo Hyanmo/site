@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';  // 导入路由配置
 import axios from 'axios';
+import './assets/styles.css';
 
 
 const app = createApp(App);

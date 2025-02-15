@@ -6,6 +6,9 @@
     @mousedown="startDrag"
     @mousemove="dragging"
     @mouseup="stopDrag"
+    @touchstart="startDrag"
+    @touchmove="dragging"
+    @touchend="stopDrag"
   >
     <h2 class="title">情绪垃圾桶</h2>
 
@@ -98,14 +101,19 @@ export default {
       this.containerHeight = this.$el.offsetHeight;
     },
     startDrag(e) {
+      e.preventDefault(); // 防止触摸和鼠标事件的默认行为
       this.isDragging = true;
-      this.dragStart.x = e.clientX - this.containerPosition.x;
-      this.dragStart.y = e.clientY - this.containerPosition.y;
+      const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+      const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+      this.dragStart.x = clientX - this.containerPosition.x;
+      this.dragStart.y = clientY - this.containerPosition.y;
     },
     dragging(e) {
       if (this.isDragging) {
-        this.containerPosition.x = e.clientX - this.dragStart.x;
-        this.containerPosition.y = e.clientY - this.dragStart.y;
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        this.containerPosition.x = clientX - this.dragStart.x;
+        this.containerPosition.y = clientY - this.dragStart.y;
       }
     },
     stopDrag() {
@@ -146,7 +154,7 @@ export default {
           }
 
           if (this.emotions.every(emotion => emotion.clickCount >= 3)) {
-            this.emotions=[];
+            this.emotions = [];
             this.showBlessing = true;
             setTimeout(() => {
               this.resetState();
