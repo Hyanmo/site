@@ -86,7 +86,8 @@ exports.addPhoto = (req, res) => {
 exports.deletePhoto = (req, res) => {
   const { id } = req.params;
 
-  pool.execute('DELETE FROM photo_logs WHERE id = ?', [id], (err, result) => {
+  // 先查询照片信息，获取文件路径
+  pool.execute('SELECT src FROM photo_logs WHERE id = ?', [id], (err, results) => {
     if (err) {
       console.error('Database query error:', err);
       return res.status(500).json({ 
@@ -94,15 +95,37 @@ exports.deletePhoto = (req, res) => {
         message: '删除照片失败' 
       });
     }
-    if (result.affectedRows === 0) {
+
+    if (results.length === 0) {
       return res.status(404).json({ 
         status: 'error',
         message: '照片不存在' 
       });
     }
-    res.json({ 
-      status: 'success',
-      message: '照片删除成功' 
+
+    // 删除本地文件
+    const photoPath = path.join(__dirname, '..', 'public', results[0].src);
+    try {
+      if (fs.existsSync(photoPath)) {
+        fs.unlinkSync(photoPath);
+      }
+    } catch (error) {
+      console.error('File deletion error:', error);
+    }
+
+    // 删除数据库记录
+    pool.execute('DELETE FROM photo_logs WHERE id = ?', [id], (err, result) => {
+      if (err) {
+        console.error('Database delete error:', err);
+        return res.status(500).json({ 
+          status: 'error',
+          message: '删除照片失败' 
+        });
+      }
+      res.json({ 
+        status: 'success',
+        message: '照片删除成功' 
+      });
     });
   });
 };

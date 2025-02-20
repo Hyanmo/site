@@ -6,9 +6,6 @@ const pool = require('../db'); // 引入 db.js 文件
 exports.login = async (req, res) => {
   const { username, password } = req.body;
 
-  // 输出接收到的请求数据
-  console.log('Login attempt with username:', username);
-
   pool.execute('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
     if (err) {
       console.error('Database query error:', err);
@@ -27,20 +24,44 @@ exports.login = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
-      // 密码匹配，返回登录成功的响应
       console.log('Password match successful');
       
-      // 获取 users 表中的 content 字段作为欢迎语
-      const welcomeMessage = user.content || `Welcome back, ${user.username}!`;  // 如果 content 字段为空则使用默认欢迎语
+      const welcomeMessage = user.content || `Welcome back, ${user.username}!`;
 
       res.json({
         message: 'Login successful',
         status: 'success',
-        welcomeMessage: welcomeMessage  // 动态欢迎语
+        welcomeMessage: welcomeMessage,
+        isGuest: false  // 明确标识为非游客用户
       });
     } else {
       console.log('Password mismatch');
       res.status(401).json({ message: 'Invalid username or password', status: 'error' });
     }
   });
+};
+
+
+// 游客登录 API
+exports.guestLogin = (req, res) => {
+  console.log('Guest login attempt');
+  
+  res.json({
+    message: 'Guest login successful',
+    status: 'success',
+    welcomeMessage: '欢迎访问！Welcome to visit!',
+    isGuest: true
+  });
+};
+
+// 权限检查中间件
+exports.checkAuth = (req, res, next) => {
+  // 检查是否为游客
+  if (req.headers.isGuest === 'true') {
+    return res.status(401).json({
+      status: 'error',
+      message: '请登录后使用此功能 / Please login to use this feature'
+    });
+  }
+  next();
 };

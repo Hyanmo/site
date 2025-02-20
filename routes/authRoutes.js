@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// 登录 API 路由
 router.post('/login', authController.login);
+router.post('/guest', authController.guestLogin);
 
 module.exports = router;

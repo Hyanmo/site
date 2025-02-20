@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const photoController = require('../controllers/photoController');
+const authController = require('../controllers/authController');
 
 // 配置文件上传
 const storage = multer.diskStorage({
@@ -27,9 +28,25 @@ const upload = multer({
 });
 
 // 注册路由
-router.post('/', photoController.addPhoto);
+router.post('/', authController.checkAuth, photoController.addPhoto);
 router.get('/', photoController.getPhotos);
-router.post('/upload', upload.single('file'), photoController.uploadPhoto);
-router.delete('//:id', photoController.deletePhoto);
+router.post('/upload', 
+  (req, res, next) => {
+    // 确保在文件上传前进行权限检查
+    authController.checkAuth(req, res, () => {
+      upload.single('file')(req, res, (err) => {
+        if (err) {
+          return res.status(400).json({
+            status: 'error',
+            message: err.message
+          });
+        }
+        next();
+      });
+    });
+  }, 
+  photoController.uploadPhoto
+);
+router.delete('/:id', authController.checkAuth, photoController.deletePhoto);
 
 module.exports = router;

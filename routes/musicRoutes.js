@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const musicController = require('../controllers/musicController');
+const authController = require('../controllers/authController');
 
 // 配置音乐文件上传
 const musicStorage = multer.diskStorage({
@@ -55,10 +56,42 @@ const uploadCover = multer({
 });
 
 // 路由定义
-router.post('/upload/music', uploadMusic.single('file'), musicController.uploadMusic);
-router.post('/upload/cover', uploadCover.single('file'), musicController.uploadCover);
-router.post('/', musicController.addMusic);
-router.get('/', musicController.getMusics);
-router.delete('/:id', musicController.deleteMusic);
+router.post('/upload/music', 
+  (req, res, next) => {
+    authController.checkAuth(req, res, () => {
+      uploadMusic.single('file')(req, res, (err) => {
+        if (err) {
+          return res.status(400).json({
+            status: 'error',
+            message: err.message
+          });
+        }
+        next();
+      });
+    });
+  },
+  musicController.uploadMusic
+);
+
+router.post('/upload/cover', 
+  (req, res, next) => {
+    authController.checkAuth(req, res, () => {
+      uploadCover.single('file')(req, res, (err) => {
+        if (err) {
+          return res.status(400).json({
+            status: 'error',
+            message: err.message
+          });
+        }
+        next();
+      });
+    });
+  },
+  musicController.uploadCover
+);
+
+router.post('/', authController.checkAuth, musicController.addMusic);
+router.get('/', musicController.getMusics);  // 游客可以访问
+router.delete('/:id', authController.checkAuth, musicController.deleteMusic);
 
 module.exports = router;
