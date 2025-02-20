@@ -7,7 +7,7 @@ const photoController = require('../controllers/photoController');
 // 配置文件上传
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/uploads/');
+    cb(null, 'public/uploads/photo');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
