@@ -24,7 +24,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### sit web
-[Configuration Reference](www.uangh0807.online).
+[www.uangh0807.online](www.uangh0807.online).
 
 
 
